@@ -1,3 +1,4 @@
+ 
 # URL Hashing System
 
 This project provides a URL shortening service that generates a hashed version of long URLs, allowing users to track clicks while preserving the integrity and privacy of the original URLs. The service is built using AWS Lambda, DynamoDB, and Express.js.
@@ -42,3 +43,6 @@ If you encounter any issues or have questions, feel free to open an issue in the
 
 This project is licensed under the MIT License.
 
+# url-hashing
+This project is a serverless URL shortening service that allows users to convert long URLs into short, hashed URLs while preserving query parameters. It features click tracking and provides a RESTful API for generating shortened URLs, redirecting to original URLs, and retrieving click
+ 
