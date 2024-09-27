@@ -1,0 +1,138 @@
+openapi: 3.0.1
+info:
+  title: URL Hashing System API
+  description: API for URL shortening and click tracking
+  version: 1.0.0
+servers:
+  - url: https://your-api-id.execute-api.us-east-1.amazonaws.com/dev
+    description: Development Server
+paths:
+  /shorten:
+    post:
+      summary: Shorten a URL
+      operationId: shortenUrl
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                originalUrl:
+                  type: string
+                  example: "https://example.com"
+      responses:
+        '200':
+          description: URL shortened successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hash:
+                    type: string
+                    example: "abcd1234ef"
+                  originalUrl:
+                    type: string
+                    example: "https://example.com"
+        '400':
+          description: Missing original URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Missing original URL"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Could not create shortened URL"
+
+  /r/{hash}:
+    get:
+      summary: Redirect to the original URL
+      operationId: redirectToOriginalUrl
+      parameters:
+        - name: hash
+          in: path
+          required: true
+          description: The shortened hash value
+          schema:
+            type: string
+      responses:
+        '302':
+          description: Redirect to the original URL
+        '404':
+          description: URL not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "URL not found"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Could not retrieve URL"
+
+  /details/{hash}:
+    get:
+      summary: Get details about a shortened URL
+      operationId: getUrlDetails
+      parameters:
+        - name: hash
+          in: path
+          required: true
+          description: The shortened hash value
+          schema:
+            type: string
+      responses:
+        '200':
+          description: URL details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  originalUrl:
+                    type: string
+                    example: "https://example.com"
+                  clickCount:
+                    type: integer
+                    example: 10
+        '404':
+          description: URL not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "URL not found"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Could not retrieve URL"
